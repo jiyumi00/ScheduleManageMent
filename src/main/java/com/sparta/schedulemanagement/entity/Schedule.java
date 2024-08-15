@@ -1,14 +1,20 @@
 package com.sparta.schedulemanagement.entity;
-import com.sparta.schedulemanagement.dto.ScheduleRequestDto;
-import lombok.Data;
 
-@Data
+import com.sparta.schedulemanagement.dto.ScheduleRequestDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Schedule {
     private Long id;
     private String name;
     private String password;
     private String todo;
     private String date;
+
 
     public Schedule(ScheduleRequestDto scheduleRequestDto){
         this.name= scheduleRequestDto.getName();

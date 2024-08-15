@@ -17,4 +17,10 @@ public class ScheduleResponseDto {
         this.todo=schedule.getTodo();
         this.date=schedule.getDate();
     }
+    public ScheduleResponseDto(Long id,String name,String todo,String date){
+        this.id=id;
+        this.name=name;
+        this.todo=todo;
+        this.date=date;
+    }
 }
