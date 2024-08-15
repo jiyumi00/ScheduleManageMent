@@ -16,4 +16,9 @@ public class Schedule {
         this.todo=scheduleRequestDto.getTodo();
         this.date=scheduleRequestDto.getDate();
     }
+
+    public void update(ScheduleRequestDto scheduleRequestDto){
+        this.name=scheduleRequestDto.getName();
+        this.todo=scheduleRequestDto.getTodo();
+    }
 }

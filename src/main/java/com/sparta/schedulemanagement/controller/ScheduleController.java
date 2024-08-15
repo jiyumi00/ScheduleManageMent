@@ -40,8 +40,26 @@ public class ScheduleController {
         return new ScheduleResponseDto(schedule);
     }
 
+    //전체 일정 목록 조회
     @GetMapping("/schedules")
     public List<ScheduleResponseDto> getScheduleList(){
         return scheduleRepository.findAll();
     }
+
+    //선택한 일정 수정
+    @PutMapping("/schedules/{id}")
+    public ScheduleResponseDto updateSchedule(@PathVariable Long id,@RequestBody ScheduleRequestDto scheduleRequestDto){
+        //해당 일정이 DB에 존재하는 지 확인
+        if(scheduleRepository.findById(id)!=null){
+            //해당 일정 가져오기
+            Schedule schedule=scheduleRepository.findById(id);
+            //일정 수정
+            schedule.update(scheduleRequestDto);
+            return new ScheduleResponseDto(schedule);
+        }else{
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다");
+        }
+    }
+
+
 }
