@@ -23,4 +23,8 @@ public class ScheduleRepository {
         return new ArrayList<>(scheduleList.values().stream()
                 .map(ScheduleResponseDto::new).toList());
     }
+
+    public void remove(Long id){
+        scheduleList.remove(id);
+    }
 }

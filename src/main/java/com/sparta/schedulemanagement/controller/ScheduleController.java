@@ -47,6 +47,7 @@ public class ScheduleController {
     }
 
     //선택한 일정 수정
+    //비밀번호 확인
     @PutMapping("/schedules/{id}")
     public ScheduleResponseDto updateSchedule(@PathVariable Long id,@RequestBody ScheduleRequestDto scheduleRequestDto){
         //해당 일정이 DB에 존재하는 지 확인
@@ -61,5 +62,17 @@ public class ScheduleController {
         }
     }
 
+    //선택한 일정 삭제
+    @DeleteMapping("/schedules/{id}")
+    public Long deleteSchedule(@PathVariable Long id){
+        //해당 일정이 DB에 존재하는 지 확인
+        if(scheduleRepository.findById(id)!=null){
+            //해당 일정 삭제
+           scheduleRepository.remove(id);
+            return id;
+        }else{
+            throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다");
+        }
+    }
 
 }
