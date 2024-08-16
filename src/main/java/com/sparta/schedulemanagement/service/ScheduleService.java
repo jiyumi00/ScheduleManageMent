@@ -5,10 +5,7 @@ import com.sparta.schedulemanagement.dto.ScheduleResponseDto;
 import com.sparta.schedulemanagement.entity.Schedule;
 import com.sparta.schedulemanagement.repository.ScheduleRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ScheduleService {
@@ -33,20 +30,11 @@ public class ScheduleService {
 
     public ScheduleResponseDto getSchedule(Long id) {
         //해당 일정이 존재하는 지 확인
-        Schedule schedule=findById(id);
+        ScheduleRepository scheduleRepository=new ScheduleRepository(jdbcTemplate);
+        Schedule schedule=scheduleRepository.findById(id);
         if(schedule!=null) {
-            String sql="SELECT * FROM schedule WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new RowMapper<ScheduleResponseDto>() {
-                @Override
-                public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                    return new ScheduleResponseDto(
-                            rs.getLong("id"),
-                            rs.getString("name"),
-                            rs.getString("todo"),
-                            rs.getString("date")
-                    );
-                }
-            },id);
+            ScheduleResponseDto scheduleResponseDto=scheduleRepository.find(id);
+            return scheduleResponseDto;
         }else{
             throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다");
         }

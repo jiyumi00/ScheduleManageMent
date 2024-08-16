@@ -85,4 +85,18 @@ public class ScheduleRepository {
     }
 
 
+    public ScheduleResponseDto find(Long id) {
+        String sql="SELECT * FROM schedule WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new RowMapper<ScheduleResponseDto>() {
+            @Override
+            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleResponseDto(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("todo"),
+                        rs.getString("date")
+                );
+            }
+        },id);
+    }
 }
