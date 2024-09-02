@@ -11,6 +11,7 @@ public class ScheduleResponseDto {
     private String todo;
     private String date;
     private String managerName;
+    private String updateAt;
 
     public ScheduleResponseDto(Schedule schedule){
         this.id=schedule.getId();

@@ -52,6 +52,7 @@ public class ScheduleRepository {
         return jdbcTemplate.query(sql,resultSet ->{
             if(resultSet.next()){
                 Schedule schedule=new Schedule();
+                schedule.setPassword(resultSet.getString("password"));
                 schedule.setName(resultSet.getString("name"));
                 schedule.setTodo(resultSet.getString("todo"));
                 return schedule;
@@ -84,7 +85,7 @@ public class ScheduleRepository {
     }
     //수정
     public void updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
-        String sql="UPDATE schedule SET name = ?, todo = ? WHERE id = ?";
+        String sql="UPDATE schedule SET name = ?, todo = ? , update_at=Now() WHERE id = ?";
         jdbcTemplate.update(sql,scheduleRequestDto.getName(),scheduleRequestDto.getTodo(),id);
     }
     public ScheduleResponseDto find(Long id) {

@@ -15,6 +15,7 @@ public class Schedule {
     private String todo;
     private String date;
     private String managerName;
+    private String updateAt;
 
     public Schedule(ScheduleRequestDto scheduleRequestDto){
         this.name= scheduleRequestDto.getName();
@@ -28,4 +29,5 @@ public class Schedule {
         this.name=scheduleRequestDto.getName();
         this.todo=scheduleRequestDto.getTodo();
     }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleService {
@@ -43,13 +44,17 @@ public class ScheduleService {
     //일정 수정
     public Long updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         //해당 일정이 DB에 존재하는 지 확인
-        Schedule schedule=scheduleRepository.findById(id);
-        if(schedule!=null){
-           scheduleRepository.updateSchedule(id,scheduleRequestDto);
-            return id;
-        }else{
-            throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다");
+        Schedule schedule= Optional.ofNullable(scheduleRepository.findById(id))
+                .orElseThrow(()-> new IllegalArgumentException("선택한 일정은 존재하지 않습니다"));
+
+        System.out.println("scheduleRequestDto="+scheduleRequestDto.getPassword());
+        System.out.println("schedule.getPassword() = "+schedule.getPassword());
+        //비밀번호 확인
+        if(!schedule.getPassword().equals(scheduleRequestDto.getPassword())){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
+        scheduleRepository.updateSchedule(id,scheduleRequestDto);
+        return id;
     }
     //전체 일정 조회
     public List<ScheduleResponseDto> getScheduleList() {
