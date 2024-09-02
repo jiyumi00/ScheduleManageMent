@@ -31,7 +31,9 @@ public class ScheduleController {
 
     //전체 일정 목록 조회
     @GetMapping("/schedules")
-    public List<ScheduleResponseDto> getScheduleList(){
+    public List<ScheduleResponseDto> getScheduleList(
+           
+    ){
         return scheduleService.getScheduleList();
     }
 

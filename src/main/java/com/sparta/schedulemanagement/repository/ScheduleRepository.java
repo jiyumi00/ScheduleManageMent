@@ -26,7 +26,7 @@ public class ScheduleRepository {
     public Schedule save(Schedule schedule) {
         KeyHolder keyHolder=new GeneratedKeyHolder(); //기본 키를 반환받기 위한 객체
 
-        String sql="INSERT INTO schedule (name, password, todo, date) VALUES (?,?,?,?)";
+        String sql="INSERT INTO schedule (name,password, todo, date,manager_name) VALUES (?,?,?,?,?)";
 
         jdbcTemplate.update(con ->{
             PreparedStatement preparedStatement=con.prepareStatement(sql,
@@ -36,6 +36,7 @@ public class ScheduleRepository {
             preparedStatement.setString(2,schedule.getPassword());
             preparedStatement.setString(3,schedule.getTodo());
             preparedStatement.setString(4,schedule.getDate());
+            preparedStatement.setString(5, schedule.getManagerName());
 
             return preparedStatement;
         },keyHolder);
@@ -71,7 +72,8 @@ public class ScheduleRepository {
                 String name=rs.getString("name");
                 String todo=rs.getString("todo");
                 String date=rs.getString("date");
-                return new ScheduleResponseDto(id,name,todo,date);
+                String managerName=rs.getString("manager_name");
+                return new ScheduleResponseDto(id,name,todo,date,managerName);
             }
         });
     }
@@ -94,7 +96,8 @@ public class ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getString("todo"),
-                        rs.getString("date")
+                        rs.getString("date"),
+                        rs.getString("manager_name")
                 );
             }
         },id);
