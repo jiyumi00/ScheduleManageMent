@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,12 +15,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+@Repository
 public class ScheduleRepository {
     private final JdbcTemplate jdbcTemplate;
+
     public ScheduleRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate=jdbcTemplate;
     }
-
+    //DB저장
     public Schedule save(Schedule schedule) {
         KeyHolder keyHolder=new GeneratedKeyHolder(); //기본 키를 반환받기 위한 객체
 
@@ -41,9 +44,8 @@ public class ScheduleRepository {
         schedule.setId(id);
         return schedule;
     }
-
+    //선택한 id 조회
     public Schedule findById(Long id){
-        //DB 조회
         String sql="SELECT * FROM schedule WHERE id = ?";
 
         return jdbcTemplate.query(sql,resultSet ->{
@@ -57,7 +59,7 @@ public class ScheduleRepository {
             }
         },id);
     }
-
+    //전체 조회
     public List<ScheduleResponseDto> findAll() {
         //DB 조회
         String sql="SELECT * FROM schedule";
@@ -73,18 +75,16 @@ public class ScheduleRepository {
             }
         });
     }
-
+    //삭제
     public void delete(Long id) {
         String sql="DELETE FROM schedule WHERE id = ?";
         jdbcTemplate.update(sql,id);
     }
-
+    //수정
     public void updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
         String sql="UPDATE schedule SET name = ?, todo = ? WHERE id = ?";
         jdbcTemplate.update(sql,scheduleRequestDto.getName(),scheduleRequestDto.getTodo(),id);
     }
-
-
     public ScheduleResponseDto find(Long id) {
         String sql="SELECT * FROM schedule WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new RowMapper<ScheduleResponseDto>() {
